@@ -3,41 +3,40 @@
 import { useState, useEffect } from "react";
 import PromptCard from "./PromptCard";
 
-  const PromptCardList = ({ data, handleTagClick}) => {
-    return (
-      <div className="mt-16 prompt_layout">
-        {data.map((post) => (
-          <PromptCard 
-            key={post._id}
-            post={post}
-            handleTagClick={handleTagClick}
-          />
-        ))}
-      </div>
-    )
-  }
+const PromptCardList = ({ data, handleTagClick }) => {
+  return (
+    <div className="mt-16 prompt_layout">
+      {data.map((post) => (
+        <PromptCard
+          key={post._id}
+          post={post}
+          handleTagClick={handleTagClick}
+        />
+      ))}
+    </div>
+  );
+};
 
 const Feed = () => {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState([]);
 
-  const handleSearchChange = (e) => {
-
-  };
+  const handleSearchChange = (e) => {};
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('/api/prompt');
+      // Added { cache: "no-store" } option to the fetch call
+      const response = await fetch("/api/prompt", {
+        cache: "no-store",
+      });
+      
       const data = await response.json();
 
       setPosts(data);
-    }
+    };
 
     fetchPosts();
   }, []);
-  
-
-
 
   return (
     <section className="feed">
@@ -51,11 +50,7 @@ const Feed = () => {
           className="search_input peer"
         />
       </form>
-      <PromptCardList
-        data={posts}
-        handleTagClick = {()=>{}}
-
-      />
+      <PromptCardList data={posts} handleTagClick={() => {}} />
     </section>
   );
 };
